@@ -16,8 +16,8 @@
         "all": true
       },
       "window": {
-        "all": true, 
-        "create": true, 
+        "all": true,
+        "create": true,
         "center": true,
         "requestUserAttention": true,
         "setResizable": true,
@@ -60,7 +60,7 @@
       {
         "title": "Virtual Keyboard",
         "width": 1000,
-        "height": 200
+        "height": 250
       }
     ],
     "security": {
