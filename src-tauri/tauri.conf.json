@@ -59,8 +59,10 @@
     "windows": [
       {
         "title": "Virtual Keyboard",
-        "width": 1000,
-        "height": 250
+        "width": 1050,
+        "height": 500
+        ,
+        "resizable": false
       }
     ],
     "security": {
