@@ -17,6 +17,7 @@ const userSlice = createSlice({
         deleteUser: (state,action)=>{},
         updateUser: (state,action)=>{},
         fetchUser: (state,action)=>{},
+        login:(state,action)=>{}
     }
 })
 

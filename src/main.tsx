@@ -15,6 +15,8 @@ import {
 import './styles.css'
 import rootReducers from "./reducers";
 import Configs from "./screens/configs";
+import Login from "./screens/login";
+import Register from "./screens/register";
 
 const persistConfig = {
   key: 'projeto',
@@ -37,8 +39,20 @@ const router = createBrowserRouter([
   {
     path:'/config',
     element:<Configs/>
-  }
+  },
+  {
+    path:'/login',
+    element:<Login />
+  },
+  {
+    path:'/register',
+    element:<Register />
+  },
 ]);
+
+window.addEventListener('click', (event) => {
+  event.preventDefault();
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
