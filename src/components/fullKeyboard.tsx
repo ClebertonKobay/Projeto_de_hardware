@@ -15,6 +15,8 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
         input: ""
     })
 
+    const [text, setText] = useState('')
+
 
     const commonKeyboardOptions = {
         // onChange: (input:string) => onChange(input),
@@ -105,15 +107,9 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
         }
     };
 
-    // const onChange = (input: string) => {
-    //     setState((prevState) => {
-    //         return {
-    //             input: input,
-    //             layoutName: prevState.layoutName
-    //         }
-    //     });
-    //     console.log("Input changed", input);
-    // };
+    const onDigit = (input: string) => {
+        setText(input)
+    };
 
     const onKeyPress = (button: string) => {
         console.log("Button pressed", button);
@@ -139,26 +135,24 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
         });
     };
 
-    const onChangeInput = (event:ChangeEvent<HTMLInputElement> ) => {
+    const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
         let input = event.target.value;
         onChange(input)
-        setState((prevState)=>
-            {
-          return {
-            layoutName:prevState.layoutName,
-            input: input
-          }}
+        setState((prevState) => {
+            return {
+                layoutName: prevState.layoutName,
+                input: input
+            }
+        }
         );
-      };
+    };
 
 
     return (
         <div>
-            {/* <input
-          value={state.input}
-          placeholder={"Tap on the virtual keyboard to start"}
-          onChange={e => onChangeInput(e)}
-        /> */}
+            <input
+                value={text}
+            />
             <div className={"keyboardContainer"}>
                 <Keyboard
                     baseClass={"simple-keyboard-main"}
@@ -166,6 +160,7 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
                     layoutName={state.layoutName}
                     {...keyboardOptions}
                     onKeyPress={onKeyPress}
+                    onChange={onDigit}
                 />
 
                 <div className="controlArrows">
@@ -186,11 +181,13 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
                         baseClass={"simple-keyboard-numpad"}
                         {...keyboardNumPadOptions}
                         onKeyPress={onKeyPress}
+                        onChange={onDigit}
                     />
                     <Keyboard
                         baseClass={"simple-keyboard-numpadEnd"}
                         {...keyboardNumPadEndOptions}
                         onKeyPress={onKeyPress}
+                        onChange={onDigit}
                     />
                 </div>
             </div>

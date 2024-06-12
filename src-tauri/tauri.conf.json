@@ -68,8 +68,7 @@
       {
         "title": "Virtual Keyboard",
         "width": 1050,
-        "height": 300
-        ,
+        "height": 300,
         "resizable": false
       }
     ],
