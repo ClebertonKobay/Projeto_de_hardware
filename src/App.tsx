@@ -51,9 +51,9 @@ function App() {
   };
 
   function openSettings() {
-    const settingsWindow = new WebviewWindow('settings', {
+    const settingsWindow = new WebviewWindow('Settings', {
       url: '/config',
-      title: 'Settings',
+      title: 'Virtual Keyboard',
       width: 400,
       height: 400,
       resizable: false,
@@ -82,6 +82,7 @@ function App() {
       >
         <div
           onClick={openSettings}
+          title='Abrir configurações'
           style={{
             display: 'inline-block',
             height: '25px',

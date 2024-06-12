@@ -1,34 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom/client";
 import { FiUserPlus } from "react-icons/fi";
 import { IoIosArrowRoundBack } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { api } from '../utils/api';
-import { SIMPLES } from '../constants/keyboard_types';
-import { useDispatch } from 'react-redux';
-import { login } from '../reducers/userReducer';
 
 
 
-export default function Login() {
+export default function Edit() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const user = useSelector((state:any)=>state.userState)
 
-    const dispatch = useDispatch()
+    useEffect(()=>{
+        setUsername(user.username)
+    },[])
 
-    const handleLogin = async (event: React.FormEvent) => {
+    const handleUpdate = (event: React.FormEvent) => {
         event.preventDefault();
         console.log('Username:', username);
         console.log('Password:', password);
-        await api.post(`/login-user`, null, {
-            params: {
-                password,
-                username
-            }
-        }).then((res) => {
-            console.log(res.data)
-            dispatch(login(res.data))
-        })
     };
 
     return (
@@ -40,7 +31,7 @@ export default function Login() {
                 padding: "10px"
             }}
         >
-            <form onSubmit={handleLogin} className="login-form"
+            <form onSubmit={handleUpdate} className="login-form"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -55,7 +46,7 @@ export default function Login() {
 
                     }}
                 >
-                    <h2>Entrar no perfil</h2>
+                    <h2>Editar Perfil</h2>
                     <div
                     style={{
                         display:"flex",
@@ -79,23 +70,6 @@ export default function Login() {
                         >
                             <IoIosArrowRoundBack style={{ color: '#000' }} size={20} />
                         </Link>
-                        <Link
-                            // onClick={openLogin}
-                            to="/register"
-                            title='Abrir tela de adição de perfil'
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: '#F1F1F1',
-                                height: '30px',
-                                width: '30px',
-                                borderRadius: '50%',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            <FiUserPlus style={{ color: '#000' }} size={20} />
-                        </Link>
                     </div>
 
                 </div>
@@ -113,7 +87,7 @@ export default function Login() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Senha:</label>
+                    <label htmlFor="password">Nova Senha:</label>
                     <input
                         style={{
                             height: '50px'
@@ -136,7 +110,7 @@ export default function Login() {
                     cursor: 'pointer',
                     fontWeight: 'bold'
                 }}
-                type="submit" className="login-button">Logar</button>
+                type="submit" className="login-button">Atualizar</button>
             </form>
         </div>
     );

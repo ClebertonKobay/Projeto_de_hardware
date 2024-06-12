@@ -3,37 +3,54 @@ import ReactDOM from "react-dom/client";
 import { Link } from 'react-router-dom';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import '../styles.css'
+import { api } from '../utils/api';
+import { useDispatch } from 'react-redux';
+import { createUser } from '../reducers/userReducer';
+import { SIMPLES } from '../constants/keyboard_types';
 
 export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleRegister = (event: React.FormEvent) => {
+    const dispatch = useDispatch()
+
+    const handleRegister = async (event: React.FormEvent) => {
         event.preventDefault();
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            alert("As senhas não são iguais!");
             return;
         }
-        // Handle registration logic here
         console.log('Username:', username);
         console.log('Password:', password);
+        await api.post(`/create-user`, {
+            keyboardType: SIMPLES
+        }, {
+            params: {
+                password,
+                username
+            }
+        }).then((res) => {
+            console.log(res.data)
+            dispatch(createUser(res.data))
+        })
+
     };
 
     return (
         <div className="register-container"
             style={{
-                display:"flex",
+                display: "flex",
                 backgroundColor: "#F1F1F1",
-                padding:"10px"
+                padding: "10px"
             }}
         >
             <form onSubmit={handleRegister} className="register-form"
-            style={{
-                display:"flex",
-                flexDirection:"column",
-                gap:"10px"
-            }}
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px"
+                }}
             >
                 <div
                     style={{
@@ -47,6 +64,7 @@ export default function Register() {
                     <Link
                         // onClick={openLogin}
                         to="/login"
+                        title='Voltar ao Login'
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -62,7 +80,7 @@ export default function Register() {
                     </Link>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username">Usuário:</label>
                     <input
                         style={{
                             height: '50px'
@@ -75,7 +93,7 @@ export default function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Senha:</label>
                     <input
                         style={{
                             height: '50px'
@@ -88,11 +106,11 @@ export default function Register() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                    <label htmlFor="confirmPassword">Confirmar Senha:</label>
                     <input
-                    style={{
-                        height:'50px'
-                    }}
+                        style={{
+                            height: '50px'
+                        }}
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
@@ -100,7 +118,18 @@ export default function Register() {
                         required
                     />
                 </div>
-                <button type="submit" className="register-button">Register</button>
+                <button type="submit"
+                    style={{
+                        marginTop: '15px',
+                        padding: '10px 20px',
+                        backgroundColor: '#ABABAB',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                    }}
+                    className="register-button">Adicionar Perfil</button>
             </form>
         </div>
     );

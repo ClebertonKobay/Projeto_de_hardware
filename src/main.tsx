@@ -11,12 +11,14 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import createSagaMiddleware from 'redux-saga'
 
 import './styles.css'
 import rootReducers from "./reducers";
 import Configs from "./screens/configs";
 import Login from "./screens/login";
 import Register from "./screens/register";
+import rootSaga from "./sagas/userSaga";
 
 const persistConfig = {
   key: 'projeto',
@@ -25,9 +27,17 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)
 
+const sagaMiddleware = createSagaMiddleware()
+const middleware = [sagaMiddleware]
+
 export const store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware),
 })
+
+sagaMiddleware.run(rootSaga)
+
 
 const persistor = persistStore(store)
 
