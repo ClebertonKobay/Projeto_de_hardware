@@ -1,32 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from "react-dom/client";
-import { FiUserPlus } from "react-icons/fi";
+import React, { useContext, useEffect, useState } from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, redirect } from 'react-router-dom';
+import { api } from '../utils/api';
+import { updateUser } from '../reducers/userReducer';
+import { changeKeyboard } from '../reducers/keyboardReducer';
+import { UserContext } from '../Context/userContext';
 
 
 
 export default function Edit() {
-    const [username, setUsername] = useState('');
+    const [usernameState, setUsernameState] = useState('');
     const [password, setPassword] = useState('');
-    const user = useSelector((state:any)=>state.userState)
+    const { setUsername,username} = useContext(UserContext);
 
-    useEffect(()=>{
+    const user = useSelector((state: any) => state.userState)
+    const dispatch = useDispatch()
+    useEffect(() => {
         setUsername(user.username)
-    },[])
+    }, [])
 
-    const handleUpdate = (event: React.FormEvent) => {
+    const handleUpdate = async (event: React.FormEvent) => {
         event.preventDefault();
         console.log('Username:', username);
         console.log('Password:', password);
+        await api.post(`/create-user`, {
+            keyboardType: user.keyboardType
+        }, {
+            params: {
+                password,
+                username
+            }
+        }).then((res) => {
+            console.log(res.data)
+            dispatch(updateUser({username:usernameState }))
+            dispatch(changeKeyboard({...res.data}))
+            
+            redirect('/config')
+        })
     };
 
     return (
         <div className="login-container"
             style={{
                 display: "flex",
-                flexGrow:"1",
+                flexGrow: "1",
                 backgroundColor: "#F1F1F1",
                 padding: "10px"
             }}
@@ -48,9 +66,9 @@ export default function Edit() {
                 >
                     <h2>Editar Perfil</h2>
                     <div
-                    style={{
-                        display:"flex",
-                    }}
+                        style={{
+                            display: "flex",
+                        }}
                     >
 
                         <Link
@@ -82,7 +100,7 @@ export default function Edit() {
                         type="text"
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsernameState(e.target.value)}
                         required
                     />
                 </div>
@@ -99,19 +117,19 @@ export default function Edit() {
                         required
                     />
                 </div>
-                <button 
-                 style={{
-                    marginTop: '20px',
-                    padding: '10px 20px',
-                    backgroundColor: '#ABABAB',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                }}
-                onClick={handleUpdate}
-                type="button" className="login-button">Atualizar</button>
+                <button
+                    style={{
+                        marginTop: '20px',
+                        padding: '10px 20px',
+                        backgroundColor: '#ABABAB',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                    }}
+                    onClick={handleUpdate}
+                    type="button" className="login-button">Atualizar</button>
             </form>
         </div>
     );

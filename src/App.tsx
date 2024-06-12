@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window';
+import { WebviewWindow } from '@tauri-apps/api/window';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 import "./App.css";
 import Home from "./Home";
 import { FullKeyboard } from "./components/fullKeyboard";
 import { FaGear } from "react-icons/fa6";
-import { useSelector, useStore } from "react-redux";
-import { RootState } from "./types/storeTypes";
 import { ARABICO, COMPLETO, NUMERICO, SIMPLES } from "./constants/keyboard_types";
+import { KeyboardContext } from "./Context/keyboardContext";
 
 // await appWindow.setAlwaysOnTop(true);
 
 function App() {
   const [words, setWords] = useState("");
   const [forceRender, setForceRender] = useState(0);
-  let opcao = useSelector((state: RootState) => { return state.keyboard.keyType })
+  const {keyboard} = useContext(KeyboardContext);
+
+  // let opcao = useSelector((state: RootState) => { return state.keyboard.keyType })
 
   async function onChange(word: string) {
     console.log("Input changed", word);
@@ -36,7 +37,7 @@ function App() {
 
 
   const renderKeyboard = () => {
-    switch (opcao) {
+    switch (keyboard) {
       case SIMPLES:
         return <Keyboard onChange={onChange} onPress={onKeyPress} />;
       case COMPLETO:
@@ -69,37 +70,38 @@ function App() {
 
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column"
-    }}>
-      <header className=""
-        style={{
-          display: 'inline-block',
-          height: "35px",
-          backgroundColor: '#fff'
-        }}
-      >
-        <div
-          onClick={openSettings}
-          title='Abrir configurações'
+    
+      <div style={{
+        display: "flex",
+        flexDirection: "column"
+      }}>
+        <header className=""
           style={{
             display: 'inline-block',
-            height: '25px',
-            width: "25px",
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: 0,
-            padding: 0,
-            cursor: 'pointer',
-            float: "right",
+            height: "35px",
+            backgroundColor: '#fff'
           }}
-        ><FaGear /></div>
-      </header>
-      {
-        renderKeyboard()
-      }
-    </div>
+        >
+          <div
+            onClick={openSettings}
+            title='Abrir configurações'
+            style={{
+              display: 'inline-block',
+              height: '25px',
+              width: "25px",
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: 0,
+              padding: 0,
+              cursor: 'pointer',
+              float: "right",
+            }}
+          ><FaGear /></div>
+        </header>
+        {
+          renderKeyboard()
+        }
+      </div>
   );
 }
 

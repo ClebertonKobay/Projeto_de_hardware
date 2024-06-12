@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import ReactDOM from "react-dom/client";
+import React, { useContext, useState } from 'react';
 import { FiUserPlus } from "react-icons/fi";
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { api } from '../utils/api';
-import { SIMPLES } from '../constants/keyboard_types';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/userReducer';
+import { changeKeyboard } from '../reducers/keyboardReducer';
+import { KeyboardContext } from '../Context/keyboardContext';
+import { UserContext } from '../Context/userContext';
 
 
 
 export default function Login() {
-    const [username, setUsername] = useState('');
+    const [usernameState, setUsernameState] = useState('');
     const [password, setPassword] = useState('');
+    const { keyboard, setKeyboard } = useContext(KeyboardContext);
+    const { setUsername,username} = useContext(UserContext);
 
     const dispatch = useDispatch()
 
@@ -27,7 +30,11 @@ export default function Login() {
             }
         }).then((res) => {
             console.log(res.data)
-            dispatch(login(res.data))
+            dispatch(login({username}))
+            dispatch(changeKeyboard({...res.data}))
+            setKeyboard(res.data.keyboardType)
+            setUsername(usernameState)
+            redirect('/config')
         })
     };
 
@@ -35,7 +42,6 @@ export default function Login() {
         <div className="login-container"
             style={{
                 display: "flex",
-                flexGrow:"1",
                 backgroundColor: "#F1F1F1",
                 padding: "10px"
             }}
@@ -107,7 +113,7 @@ export default function Login() {
                         type="text"
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsernameState(e.target.value)}
                         required
                     />
                 </div>
@@ -126,7 +132,7 @@ export default function Login() {
                 </div>
                 <button 
                  style={{
-                    marginTop: '20px',
+                    marginTop: '15px',
                     padding: '10px 20px',
                     backgroundColor: '#ABABAB',
                     color: '#fff',

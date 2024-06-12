@@ -1,13 +1,13 @@
-import ReactDOM from "react-dom/client";
 import { FaRegUserCircle } from "react-icons/fa";
 import "./configs.css";
 import { OptionButton } from "../components/optionButtons";
 import { ARABICO, COMPLETO, NUMERICO, SIMPLES } from "../constants/keyboard_types";
 import { useSelector } from "react-redux";
 import { RootState } from "../types/storeTypes";
-import { WebviewWindow } from "@tauri-apps/api/window";
 import { CiLogin } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { KeyboardContext } from "../Context/keyboardContext";
 
 const options = [
     SIMPLES, COMPLETO, NUMERICO, ARABICO
@@ -32,8 +32,9 @@ const options = [
 // }
 
 export default function Configs() {
-    const opcao = useSelector((state: RootState) => { return state.keyboard.keyType });
-    const user = useSelector((state:any)=>state.userState)
+    // const opcao = useSelector((state: RootState) => state.keyboard.keyType);
+    const { keyboard,setKeyboard } = useContext(KeyboardContext);
+    const user = useSelector((state: RootState) => state.user.username)
 
     return (
         <>
@@ -59,19 +60,41 @@ export default function Configs() {
                         margin: "0 0 20px 0 "
                     }}
                 >
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                        <FaRegUserCircle
-                            style={{
-                                margin: "0 10px"
-                            }}
-                            size={35}
-                        />
-                        <span
-                            style={{
-                                fontWeight: "bold"
-                            }}
-                        >{user?.username ?? `Usuário Padrão`}</span>
-                    </div>
+                    {
+                        user ?
+                            <Link
+                                to='/edit'
+                            >
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <FaRegUserCircle
+                                        style={{
+                                            margin: "0 10px"
+                                        }}
+                                        size={35}
+                                    />
+                                    <span
+                                        style={{
+                                            fontWeight: "bold"
+                                        }}
+                                    >{user ?? `Usuário Padrão`}</span>
+                                </div>
+                            </Link>
+                            :
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <FaRegUserCircle
+                                    style={{
+                                        margin: "0 10px"
+                                    }}
+                                    size={35}
+                                />
+                                <span
+                                    style={{
+                                        fontWeight: "bold"
+                                    }}
+                                >{user ?? `Usuário Padrão`}</span>
+                            </div>
+                    }
+
                     <Link
                         // onClick={openLogin}
                         to="/login"
@@ -112,15 +135,15 @@ export default function Configs() {
                             fontWeight: "bold"
                         }}
                     ><div
-                    style={{
-                        display:"flex",
-                        flexDirection:"column"
-                    }}
+                        style={{
+                            display: "flex",
+                            flexDirection: "column"
+                        }}
                     >
-                        
+
                             <div>Opções de teclado</div>
-                            <div>Atual: {opcao}</div>
-                    </div>
+                            <div>Atual: {keyboard}</div>
+                        </div>
                     </div>
                     <div
                         style={{
@@ -131,7 +154,7 @@ export default function Configs() {
                         }}
                     >
                         {options.map((option) => (
-                            <OptionButton key={option} option={option}></OptionButton>
+                            <OptionButton key={option} option={option} setKeyboard={setKeyboard}></OptionButton>
                         ))}
                     </div>
                 </div>

@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import ReactDOM from "react-dom/client";
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, redirect } from 'react-router-dom';
 import { IoIosArrowRoundBack } from "react-icons/io";
 import '../styles.css'
 import { api } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../reducers/userReducer';
 import { SIMPLES } from '../constants/keyboard_types';
+import { changeKeyboard } from '../reducers/keyboardReducer';
+import { KeyboardContext } from '../Context/keyboardContext';
+import { UserContext } from '../Context/userContext';
 
 export default function Register() {
-    const [username, setUsername] = useState('');
+    const [usernameState, setUsernameState] = useState('');
     const [password, setPassword] = useState('');
+    const { keyboard, setKeyboard } = useContext(KeyboardContext);
+    const { setUsername,username} = useContext(UserContext);
+
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const dispatch = useDispatch()
@@ -22,7 +27,7 @@ export default function Register() {
             alert("As senhas não são iguais!");
             return;
         }
-        console.log('Username:', username);
+        console.log('Username:', usernameState);
         console.log('Password:', password);
         await api.post(`/create-user`, {
             keyboardType: SIMPLES
@@ -33,9 +38,12 @@ export default function Register() {
             }
         }).then((res) => {
             console.log(res.data)
-            dispatch(createUser(res.data))
+            dispatch(createUser({username:usernameState}))
+            dispatch(changeKeyboard({...res.data}))
+            setKeyboard(SIMPLES)
+            setUsername(usernameState)
+            redirect('/config')
         })
-
     };
 
     return (
@@ -89,7 +97,7 @@ export default function Register() {
                         type="text"
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsernameState(e.target.value)}
                         required
                     />
                 </div>

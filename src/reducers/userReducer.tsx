@@ -1,14 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SIMPLES } from "../constants/keyboard_types";
-
 export interface userState {
     username: string | null;
-    keyboardType: string;
 }
 
 const initialState: userState = {
     username: null,
-    keyboardType: ''
 };
 
 
@@ -21,7 +17,6 @@ const userSlice = createSlice({
             return {
                 ...state,
                 username:action.payload.username,
-                keyboardType:action.payload.keyboardType
             }
         },
         // createdUser:(state,action)=>{},
@@ -29,7 +24,6 @@ const userSlice = createSlice({
             console.log(action.payload)
             return {
                 username:null,
-                keyboardType:SIMPLES
             }
 
         },
@@ -39,7 +33,6 @@ const userSlice = createSlice({
             return {
                 ...state,
                 username:action.payload.username,
-                keyboardType:action.payload.keyboardType
             }
         },
         // updatedUser: (state,action)=>{},
@@ -48,7 +41,6 @@ const userSlice = createSlice({
             return {
                 ...state,
                 username:action.payload.username,
-                keyboardType:action.payload.keyboardType
             }
         },
         // fetchedUser: (state,action)=>{},
@@ -57,7 +49,6 @@ const userSlice = createSlice({
             return {
                 ...state,
                 username:action.payload.username,
-                keyboardType:action.payload.keyboardType
             }
         }
     }
