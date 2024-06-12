@@ -31,7 +31,7 @@ export default function Edit() {
                 padding: "10px"
             }}
         >
-            <form onSubmit={handleUpdate} className="login-form"
+            <form className="login-form"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -110,7 +110,8 @@ export default function Edit() {
                     cursor: 'pointer',
                     fontWeight: 'bold'
                 }}
-                type="submit" className="login-button">Atualizar</button>
+                onClick={handleUpdate}
+                type="button" className="login-button">Atualizar</button>
             </form>
         </div>
     );

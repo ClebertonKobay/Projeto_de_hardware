@@ -15,7 +15,8 @@ export default function Register() {
 
     const dispatch = useDispatch()
 
-    const handleRegister = async (event: React.FormEvent) => {
+    const handleRegister = async (event: any) => {
+        console.log('oahid')
         event.preventDefault();
         if (password !== confirmPassword) {
             alert("As senhas não são iguais!");
@@ -45,7 +46,7 @@ export default function Register() {
                 padding: "10px"
             }}
         >
-            <form onSubmit={handleRegister} className="register-form"
+            <form className="register-form"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -118,7 +119,8 @@ export default function Register() {
                         required
                     />
                 </div>
-                <button type="submit"
+                <button type="button"
+                onClick={handleRegister}
                     style={{
                         marginTop: '15px',
                         padding: '10px 20px',

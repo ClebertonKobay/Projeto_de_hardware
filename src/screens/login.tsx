@@ -40,7 +40,7 @@ export default function Login() {
                 padding: "10px"
             }}
         >
-            <form onSubmit={handleLogin} className="login-form"
+            <form className="login-form"
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -61,7 +61,6 @@ export default function Login() {
                         display:"flex",
                     }}
                     >
-
                         <Link
                             // onClick={openLogin}
                             to="/config"
@@ -136,7 +135,7 @@ export default function Login() {
                     cursor: 'pointer',
                     fontWeight: 'bold'
                 }}
-                type="submit" className="login-button">Logar</button>
+                type="button" onClick={handleLogin} className="login-button">Logar</button>
             </form>
         </div>
     );

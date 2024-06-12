@@ -11,7 +11,7 @@ import { useSelector, useStore } from "react-redux";
 import { RootState } from "./types/storeTypes";
 import { ARABICO, COMPLETO, NUMERICO, SIMPLES } from "./constants/keyboard_types";
 
-await appWindow.setAlwaysOnTop(true);
+// await appWindow.setAlwaysOnTop(true);
 
 function App() {
   const [words, setWords] = useState("");

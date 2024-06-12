@@ -140,7 +140,3 @@ export default function Configs() {
 
     );
 }
-
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <Configs />
-);
