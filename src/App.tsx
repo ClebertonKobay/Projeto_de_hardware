@@ -9,6 +9,7 @@ import { FullKeyboard } from "./components/fullKeyboard";
 import { FaGear } from "react-icons/fa6";
 import { ARABICO, COMPLETO, NUMERICO, SIMPLES } from "./constants/keyboard_types";
 import { KeyboardContext } from "./Context/keyboardContext";
+import { CgScreen } from "react-icons/cg";
 
 // await appWindow.setAlwaysOnTop(true);
 
@@ -68,6 +69,24 @@ function App() {
     });
   }
 
+  function openCalibration() {
+    const settingsWindow = new WebviewWindow('Calibration', {
+      url: '/calibration',
+      title: 'Virtual Keyboard: Calibration',
+      fullscreen:true,
+      transparent:true,
+      // alwaysOnTop:true,
+      resizable: false,
+    });
+
+    settingsWindow.once('tauri://created', () => {
+      console.log('Settings window created');
+    });
+    settingsWindow.once('tauri://error', (e) => {
+      console.error('Failed to create settings window', e);
+    });
+  }
+
 
   return (
     
@@ -97,6 +116,23 @@ function App() {
               float: "right",
             }}
           ><FaGear /></div>
+          <div
+               onClick={openCalibration}
+               title='Calibrar Sensor'
+               style={{
+                 display: 'inline-block',
+                 height: '25px',
+                 width: "25px",
+                 alignItems: 'center',
+                 justifyContent: 'center',
+                 margin: 0,
+                 padding: 0,
+                 cursor: 'pointer',
+                 float: "right",
+               }}
+          >
+            <CgScreen />
+          </div>
         </header>
         {
           renderKeyboard()

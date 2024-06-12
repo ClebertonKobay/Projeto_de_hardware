@@ -8,6 +8,7 @@ import Register from "./screens/register";
 import Edit from "./screens/Profile";
 import KeyboardProvider from "./Context/keyboardContext";
 import UserProvider from "./Context/userContext";
+import { CalibrationScreen } from "./screens/calibration";
 
 
 
@@ -34,6 +35,10 @@ export default function Middleware() {
             path: '/edit',
             element: <Edit />
         },
+        {
+            path: "/calibration",
+            element: <CalibrationScreen />
+        }
     ]);
 
     return (
