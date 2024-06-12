@@ -21,7 +21,6 @@ export default function Register() {
     const dispatch = useDispatch()
 
     const handleRegister = async (event: any) => {
-        console.log('oahid')
         event.preventDefault();
         if (password !== confirmPassword) {
             alert("As senhas não são iguais!");

@@ -1,5 +1,3 @@
-
-
 export type OptionButtonProp = {
     option: string
     setKeyboard: (option:string)=> void

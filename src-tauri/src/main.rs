@@ -68,31 +68,31 @@ fn move_mouse_center() -> () {
 
 #[tokio::main]
 async fn main() {
-    tokio::task::spawn(async {
-        let mut action = 0;
-        let mut last_position = (-1, -1);
-        let mut left_eye = (-1, -1);
-        let mut right_eye = (-1, -1);
+    // tokio::task::spawn(async {
+    //     let mut action = 0;
+    //     let mut last_position = (-1, -1);
+    //     let mut left_eye = (-1, -1);
+    //     let mut right_eye = (-1, -1);
 
-        move_mouse_center();
+    //     move_mouse_center();
 
-        loop {
-            tokio::time::sleep(tokio::time::Duration::from_millis(160)).await;
-            // std::thread::sleep(tok::Duration::from_millis(160));
-            (action, left_eye, right_eye) = update_state();
-            // let point = (left_eye + right_eye)/2;
+    //     loop {
+    //         tokio::time::sleep(tokio::time::Duration::from_millis(160)).await;
+    //         // std::thread::sleep(tok::Duration::from_millis(160));
+    //         (action, left_eye, right_eye) = update_state();
+    //         // let point = (left_eye + right_eye)/2;
 
-            let m = ((left_eye.0 + right_eye.0)/2, (left_eye.1 + right_eye.1)/2);
+    //         let m = ((left_eye.0 + right_eye.0)/2, (left_eye.1 + right_eye.1)/2);
 
-            match action {
-                1 => click_mouse(),
-                4 => move_mouse(last_position, m),
-                _ => ()
-            }
+    //         match action {
+    //             1 => click_mouse(),
+    //             4 => move_mouse(last_position, m),
+    //             _ => ()
+    //         }
 
-            last_position = m;
-        }
-    });
+    //         last_position = m;
+    //     }
+    // });
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![])
