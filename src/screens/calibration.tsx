@@ -14,7 +14,7 @@ export function CalibrationScreen() {
         if (visiblePoint < 4) {
             const pointTimer = setTimeout(() => {
                 setVisiblePoint((prev) => (prev + 1) % 5);
-                setTimeLeft(5); // reset timer for next point
+                setTimeLeft(5);
             }, 5000);
 
             const countdownTimer = setInterval(() => {

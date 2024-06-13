@@ -14,13 +14,11 @@ export const KeyboardContext = createContext<KeyboardContextType>({
 
 const KeyboardProvider = ({ children }: { children: ReactNode }) => {
     const [keyboard, setKeyboardState] = useState(() => {
-        // Carrega o estado do localStorage ou usa o valor padrão
         const savedKeyboard = localStorage.getItem("keyboardType");
         return savedKeyboard ? savedKeyboard : SIMPLES;
     });
 
     useEffect(() => {
-        // Salva o estado no localStorage sempre que ele mudar
         localStorage.setItem("keyboardType", keyboard);
     }, [keyboard]);
 

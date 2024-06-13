@@ -15,9 +15,6 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
         input: ""
     })
 
-    const [text, setText] = useState('')
-
-
     const commonKeyboardOptions = {
         // onChange: (input:string) => onChange(input),
         // onKeyPress: (button:string) => onKeyPress(button),
@@ -30,10 +27,6 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
 
     const keyboardOptions = {
         ...commonKeyboardOptions,
-        /**
-         * Layout by:
-         * Sterling Butters (https://github.com/SterlingButters)
-         */
         layout: {
             default: [
                 "{escape} {f1} {f2} {f3} {f4} {f5} {f6} {f7} {f8} {f9} {f10} {f11} {f12}",
@@ -107,10 +100,6 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
         }
     };
 
-    const onDigit = (input: string) => {
-        setText(input)
-    };
-
     const onKeyPress = (button: string) => {
         console.log("Button pressed", button);
         onPress(button)
@@ -150,9 +139,7 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
 
     return (
         <div>
-            <input
-                value={text}
-            />
+
             <div className={"keyboardContainer"}>
                 <Keyboard
                     baseClass={"simple-keyboard-main"}
@@ -160,7 +147,7 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
                     layoutName={state.layoutName}
                     {...keyboardOptions}
                     onKeyPress={onKeyPress}
-                    onChange={onDigit}
+                    onChange={onChange}
                 />
 
                 <div className="controlArrows">
@@ -181,13 +168,13 @@ export function FullKeyboard({ onChange, onPress }: FullKeyboardProps) {
                         baseClass={"simple-keyboard-numpad"}
                         {...keyboardNumPadOptions}
                         onKeyPress={onKeyPress}
-                        onChange={onDigit}
+                        onChange={onChange}
                     />
                     <Keyboard
                         baseClass={"simple-keyboard-numpadEnd"}
                         {...keyboardNumPadEndOptions}
                         onKeyPress={onKeyPress}
-                        onChange={onDigit}
+                        onChange={onChange}
                     />
                 </div>
             </div>

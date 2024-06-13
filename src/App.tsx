@@ -14,15 +14,15 @@ import { CgScreen } from "react-icons/cg";
 // await appWindow.setAlwaysOnTop(true);
 
 function App() {
-  const [words, setWords] = useState("");
   const [forceRender, setForceRender] = useState(0);
   const {keyboard} = useContext(KeyboardContext);
+  const [text, setText] = useState('')
 
   // let opcao = useSelector((state: RootState) => { return state.keyboard.keyType })
 
   async function onChange(word: string) {
     console.log("Input changed", word);
-    setWords(word)
+    setText(word)
   }
 
   async function onKeyPress(letter: string) {
@@ -134,6 +134,9 @@ function App() {
             <CgScreen />
           </div>
         </header>
+        <input
+                value={text}
+            />
         {
           renderKeyboard()
         }
