@@ -14,7 +14,7 @@ export default function Register() {
     const [usernameState, setUsernameState] = useState('');
     const [password, setPassword] = useState('');
     const { keyboard, setKeyboard } = useContext(KeyboardContext);
-    const { setUsername,username} = useContext(UserContext);
+    const { setUsername, username } = useContext(UserContext);
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -28,21 +28,27 @@ export default function Register() {
         }
         console.log('Username:', usernameState);
         console.log('Password:', password);
-        await api.post(`/create-user`, {
-            keyboardType: SIMPLES
-        }, {
-            params: {
-                password,
-                username
-            }
-        }).then((res) => {
-            console.log(res.data)
-            dispatch(createUser({username:usernameState}))
-            dispatch(changeKeyboard({...res.data}))
-            setKeyboard(SIMPLES)
-            setUsername(usernameState)
-            redirect('/config')
-        })
+        try {
+
+            await api.post(`/create-user`, {
+                keyboardType: SIMPLES
+            }, {
+                params: {
+                    password,
+                    username
+                }
+            }).then((res) => {
+                console.log(res.data)
+                dispatch(createUser({ username: usernameState }))
+                dispatch(changeKeyboard({ ...res.data }))
+                setKeyboard(SIMPLES)
+                setUsername(usernameState)
+                redirect('/config')
+            })
+        } catch (err) {
+            console.log(err)
+            alert(err)
+        }
     };
 
     return (
@@ -95,7 +101,7 @@ export default function Register() {
                         }}
                         type="text"
                         id="username"
-                        value={username}
+                        value={usernameState}
                         onChange={(e) => setUsernameState(e.target.value)}
                         required
                     />
@@ -127,7 +133,7 @@ export default function Register() {
                     />
                 </div>
                 <button type="button"
-                onClick={handleRegister}
+                    onClick={handleRegister}
                     style={{
                         marginTop: '15px',
                         padding: '10px 20px',

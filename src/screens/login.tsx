@@ -15,7 +15,7 @@ export default function Login() {
     const [usernameState, setUsernameState] = useState('');
     const [password, setPassword] = useState('');
     const { keyboard, setKeyboard } = useContext(KeyboardContext);
-    const { setUsername,username} = useContext(UserContext);
+    const { setUsername, username } = useContext(UserContext);
 
     const dispatch = useDispatch()
 
@@ -23,19 +23,25 @@ export default function Login() {
         event.preventDefault();
         console.log('Username:', username);
         console.log('Password:', password);
-        await api.post(`/login-user`, null, {
-            params: {
-                password,
-                username
-            }
-        }).then((res) => {
-            console.log(res.data)
-            dispatch(login({username}))
-            dispatch(changeKeyboard({...res.data}))
-            setKeyboard(res.data.keyboardType)
-            setUsername(usernameState)
-            redirect('/config')
-        })
+        try {
+
+            await api.post(`/login-user`, null, {
+                params: {
+                    password,
+                    username
+                }
+            }).then((res) => {
+                console.log(res.data)
+                dispatch(login({ username }))
+                dispatch(changeKeyboard({ ...res.data }))
+                setKeyboard(res.data.keyboardType)
+                setUsername(usernameState)
+                redirect('/config')
+            })
+        }catch(err){
+            console.log(err)
+            alert(err)
+        }
     };
 
     return (
@@ -63,9 +69,9 @@ export default function Login() {
                 >
                     <h2>Entrar no perfil</h2>
                     <div
-                    style={{
-                        display:"flex",
-                    }}
+                        style={{
+                            display: "flex",
+                        }}
                     >
                         <Link
                             // onClick={openLogin}
@@ -112,7 +118,7 @@ export default function Login() {
                         }}
                         type="text"
                         id="username"
-                        value={username}
+                        value={usernameState}
                         onChange={(e) => setUsernameState(e.target.value)}
                         required
                     />
@@ -130,18 +136,18 @@ export default function Login() {
                         required
                     />
                 </div>
-                <button 
-                 style={{
-                    marginTop: '15px',
-                    padding: '10px 20px',
-                    backgroundColor: '#ABABAB',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold'
-                }}
-                type="button" onClick={handleLogin} className="login-button">Logar</button>
+                <button
+                    style={{
+                        marginTop: '15px',
+                        padding: '10px 20px',
+                        backgroundColor: '#ABABAB',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                    }}
+                    type="button" onClick={handleLogin} className="login-button">Logar</button>
             </form>
         </div>
     );

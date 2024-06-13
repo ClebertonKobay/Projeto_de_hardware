@@ -42,7 +42,7 @@ fn update_state() -> (i32, (i32, i32), (i32, i32)) {
     let mut buf = String::new();
 
     let mut file =
-        std::fs::File::open("/home/bueno/Documentos/Programming/eye-tracker.txt").unwrap();
+        std::fs::File::open("D:/Estudos/5_ano/eye-tracker.txt").unwrap();
 
     let _ = file.read_to_string(&mut buf).unwrap();
 
@@ -96,12 +96,12 @@ fn move_mouse(actual_position: (i32, i32)) -> () {
 
         let center = ((P1.0 + P3.0) / 2, (P1.1 + P3.1) / 2);
 
-        let step_x = (1920 as f32) / (diff_x as f32);
-        let step_y = (1080 as f32) / (diff_y as f32);
+        let step_x = 6.0; // (1920 as f32) / (diff_x as f32);
+        let step_y = 6.0; // (1080 as f32) / (diff_y as f32);
 
         let position = (
-            ((actual_position.0 - center.0 + diff_x) as f32) * step_x,
-            ((actual_position.1 - center.1 + diff_y) as f32) * step_y,
+            (-(actual_position.0 - center.0) as f32) * step_x + 1920.0 / 2.0,
+            ((actual_position.1 - center.1) as f32) * step_y + 1080.0 / 2.0 + 300.0,
         );
 
         println!(
@@ -148,7 +148,7 @@ async fn main() {
         move_mouse_center();
 
         loop {
-            tokio::time::sleep(tokio::time::Duration::from_millis(160)).await;
+            tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
 
             unsafe {
                 if COUNTER >= 4 {
