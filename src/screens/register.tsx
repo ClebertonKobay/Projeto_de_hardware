@@ -35,7 +35,7 @@ export default function Register() {
             }, {
                 params: {
                     password,
-                    username
+                    usernameState
                 }
             }).then((res) => {
                 console.log(res.data)

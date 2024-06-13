@@ -28,7 +28,7 @@ export default function Login() {
             await api.post(`/login-user`, null, {
                 params: {
                     password,
-                    username
+                    usernameState
                 }
             }).then((res) => {
                 console.log(res.data)
