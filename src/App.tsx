@@ -10,6 +10,7 @@ import { FaGear } from "react-icons/fa6";
 import { ARABICO, COMPLETO, NUMERICO, SIMPLES } from "./constants/keyboard_types";
 import { KeyboardContext } from "./Context/keyboardContext";
 import { CgScreen } from "react-icons/cg";
+import { ArabicKeyboard } from "./components/arabicKeyboard";
 
 // await appWindow.setAlwaysOnTop(true);
 
@@ -44,7 +45,7 @@ function App() {
       case COMPLETO:
         return <FullKeyboard onChange={onChange} onPress={onKeyPress} />;
       case NUMERICO:
-        return <div />;
+        return <ArabicKeyboard  onChange={onChange} />;
       case ARABICO:
         return <div />;
       default:

@@ -13,6 +13,7 @@ export function CalibrationScreen() {
         console.log(visiblePoint)
         if (visiblePoint < 4) {
             const pointTimer = setTimeout(() => {
+                calibration()
                 setVisiblePoint((prev) => (prev + 1) % 5);
                 setTimeLeft(5);
             }, 5000);
@@ -21,24 +22,23 @@ export function CalibrationScreen() {
                 setTimeLeft((prev) => prev - 1);
             }, 1000);
 
-            calibration()
 
             return () => {
                 clearTimeout(pointTimer);
                 clearInterval(countdownTimer);
             };
-            
+
         } else {
             closeWindow()
         }
     }, [visiblePoint]);
 
-    const calibration = async() => {
+    const calibration = async () => {
         await invoke('calibration')
     }
 
-    const closeWindow = async()=> {
-        await appWindow.close().then((res)=>console.log(res))
+    const closeWindow = async () => {
+        await appWindow.close().then((res) => console.log(res))
     }
 
 
